@@ -24,6 +24,19 @@ const urlSchema = new mongoose.Schema({
 
 const Url = mongoose.model('Url', urlSchema);
 
+app.post('/api/short', async (req, res) => {
+    try{
+        const { originalUrl } = req.body;
+        const shortUrl = nanoid(8);
+        const url = new Url({ originalUrl, shortUrl });
+        await url.save();
+        return res.status(201).json({message : "Shortened URL created",url: url});
+    } catch(err){
+        console.log(err);
+        return res.status(500).json({message : "Internal Server Error"});
+    }
+})    
+
 app.listen(process.env.PORT, () => { 
     console.log(`Server running on port ${process.env.PORT}`); 
 });
