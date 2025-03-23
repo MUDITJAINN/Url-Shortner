@@ -4,6 +4,7 @@ import cors from 'cors';  // enable Cross-Origin Resource Sharing
 import { nanoid } from 'nanoid';  // generate unique ids
 import dotenv from 'dotenv';  // Loads environment variables from .env
 dotenv.config();
+import QRCode from 'qrcode';  // generate QR code
 
 const app = express();
 app.use(cors());
@@ -32,8 +33,10 @@ app.post('/api/short', async (req, res) => {  // async for db operations
         }
         const shortUrl = nanoid(8);   // generate a random 8 character string
         const url = new Url({ originalUrl, shortUrl });
+        const myurl = `http://localhost:3001/${shortUrl}`
+        const qrcodeimage = await QRCode.toDataURL(myurl)
         await url.save();
-        return res.status(201).json({message : "Shortened URL created",url: url});
+        return res.status(201).json({message : "Shortened URL created", shorturl: myurl, qrcodeimage});
     } catch(err){
         console.log(err);
         return res.status(500).json({message : "Internal Server Error"});
