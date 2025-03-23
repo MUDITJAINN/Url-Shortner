@@ -1,12 +1,19 @@
 import { useState } from "react";
-import "./App.css"; // Import CSS
+import "./App.css";
+import axios from "axios"; 
 
 function App() {
   const [originalUrl, setOriginalUrl] = useState("");
+  const [shortUrl, setShortlUrl] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(originalUrl);
+  const handleSubmit = (e) => {  // e is the event object of form submission
+    e.preventDefault();  // Prevents the default form submission behaviour
+    axios.post('http://localhost:3001/api/short', { originalUrl })  // Send a POST request to the server
+      .then((res) => { 
+        setShortlUrl(res.data.url.shortUrl);  // Set the shortUrl in the state
+        console.log(res.data);  // Log the response data
+  })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -25,6 +32,13 @@ function App() {
           <button type="submit" className="submit-btn">
             Shorten URL
           </button>
+          {
+          shortUrl && ( <div className="short-url"> 
+              <a href={`http://localhost:3001/${shortUrl}`} target="_blank" rel="noreferrer noopener">
+              {`${shortUrl}`}</a>
+          </div>
+           )
+          }
         </form>
       </div>
     </div>

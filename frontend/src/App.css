@@ -80,3 +80,9 @@ html, body, #root {
 .submit-btn:hover {
   background-color: #1e40af;
 }
+
+.short-url {
+  margin-top: 1rem;
+  text-align: center;
+  color: #2563eb;
+}
