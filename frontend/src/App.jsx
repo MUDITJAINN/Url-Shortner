@@ -10,7 +10,7 @@ function App() {
     e.preventDefault();  // Prevents the default form submission behaviour
     axios.post('http://localhost:3001/api/short', { originalUrl })  // Send a POST request to the server
       .then((res) => { 
-        setShortlUrl(res.data.url.shortUrl);  // Set the shortUrl in the state
+        setShortlUrl(res.data);  // Set the shortUrl in the state
         console.log(res.data);  // Log the response data
   })
       .catch((err) => console.log(err));
@@ -33,9 +33,12 @@ function App() {
             Shorten URL
           </button>
           {
-          shortUrl && ( <div className="short-url"> 
-              <a href={`http://localhost:3001/${shortUrl}`} target="_blank" rel="noreferrer noopener">
-              {`${shortUrl}`}</a>
+              shortUrl && ( <div className="short-url"> 
+              <a href={shortUrl?.shorturl} target="_blank" rel="noreferrer noopener">
+              {shortUrl?.shorturl}</a>
+
+              { shortUrl &&  <img src={shortUrl.qrcodeimage} alt="QR Code"></img> }
+
           </div>
            )
           }
