@@ -7,7 +7,7 @@ dotenv.config();
 import QRCode from 'qrcode';  // generate QR code
 
 const app = express();
-// app.use(cors());
+app.use(cors());
 app.use(cors({
     origin: "https://url-shortner-jarw.onrender.com"
   })); // enable CORS for the frontend URL
