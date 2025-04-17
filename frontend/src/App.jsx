@@ -8,7 +8,9 @@ function App() {
 
   const handleSubmit = (e) => {  // e is the event object of form submission
     e.preventDefault();  // Prevents the default form submission behaviour
-    axios.post('http://localhost:3001/api/short', { originalUrl })  // Send a POST request to the server
+    // axios.post('http://localhost:3001/api/short', { originalUrl }) 
+    axios.post('https://url-shortner-huig.onrender.com/api/short', { originalUrl })
+ // Send a POST request to the server
       .then((res) => { 
         setShortlUrl(res.data);  // Set the shortUrl in the state
         console.log(res.data);  // Log the response data
