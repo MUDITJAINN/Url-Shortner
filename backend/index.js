@@ -7,7 +7,7 @@ dotenv.config();
 import QRCode from 'qrcode';  // generate QR code
 
 const app = express();
-app.use(cors());
+// app.use(cors());
 app.use(cors({
     origin: "https://url-shortner-jarw.onrender.com"
   })); // enable CORS for the frontend URL
@@ -36,7 +36,8 @@ app.post('/api/short', async (req, res) => {  // async for db operations
         }
         const shortUrl = nanoid(8);   // generate a random 8 character string
         const url = new Url({ originalUrl, shortUrl });
-        const myurl = `http://localhost:3001/${shortUrl}`
+        // const myurl = `http://localhost:3001/${shortUrl}`
+        const myurl = `https://url-shortner-huig.onrender.com/${shortUrl}`;
         const qrcodeimage = await QRCode.toDataURL(myurl)
         await url.save();
         return res.status(201).json({message : "Shortened URL created", shorturl: myurl, qrcodeimage});
@@ -65,6 +66,7 @@ app.get('/:shortUrl', async (req, res) => {  // redirect to original URL
     }
 })
 
-app.listen(process.env.PORT, () => { 
-    console.log(`Server running on port ${process.env.PORT}`); 
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => { 
+    console.log(`Server running on port ${PORT}`); 
 });
